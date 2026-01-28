@@ -20,10 +20,10 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 RUN npm ci --only=production
+RUN npx prisma generate
 
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 3001
 
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/main.js"]
